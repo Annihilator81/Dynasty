@@ -99,12 +99,12 @@ namespace Dynasty
                 }
                 joueur.SeDéplacer(gameTime);
                 joueur.Attaquer(gameTime);
-                if (gameTime.TotalGameTime.Subtract(collide.IsCollideWithSword(gameTime)).Milliseconds >= 500)
-                {
-                    map.ListMonstres[collide.ListMonstresTouchés[0]].Texture = textureMonstre;
-                    collide.ListMonstresTouchés.RemoveAt(0);
+              //  if (gameTime.TotalGameTime.Subtract(collide.IsCollideWithSword(gameTime)).Milliseconds >= 500)
+               // {
+               //     map.ListMonstres[collide.ListMonstresTouchés[0]].Texture = textureMonstre;
+                //    collide.ListMonstresTouchés.RemoveAt(0);
                   //  collide.ListMonstresTouchés.
-                }
+               // }
             }
             //Si on collide on change de map
             else

@@ -53,7 +53,7 @@ namespace Dynasty
             {
                 if (joueur.RectangleDestination.Intersects(mob.RectangleDestination))
                 {
-                    ListMonstresTouchés.Add(i);
+                  //  ListMonstresTouchés.Add(i);
                     joueur.Vie -= mob.Force;
                     joueur.Texture = Game1.FrameHeroDegat;
 
