@@ -1,0 +1,18 @@
+===================LOG====================
+Avant 05/07/2015 : Définission compléte de la map, définit par un fichier txt par zone, chaque zone correspondant
+à du 800*480 (résolution de base monogame). La résolution 800*480 est découpé en carré de 32*32 pixels.
+La map est chargée à chaque collision avec un bord. La ligne "monstre : " dans le fichier correspond à un ID de monstre
+avec ses coordonées X/Y.
+Ajout du déplacement du personnage ainsi que le sprite correspondant pour avoir une "animation".
+Création des quelques classes utiles, monstre, joueur, controller etc
+
+05/07/2015 : Ajout de Quitter() dans le controller qui detecte l'appui sur echap, dans ce cas là
+l'application est fermée. 
+Ajout de l'attaque sur la touche espace, le sprite se charge et est affiché
+a peu près correctement mais disparait après quelques coups d'épée. Bug à corriger...
+
+06/07/2015 : Ajout IsCollideWithMob(), détecte si le perso collide avec un mob.
+Si oui, le héro perd le montant de HP équivalent à la force du monstre, et change de texture
+pour afficher qu'il a prit un coup. La texture reste affiché une seconde. Voir pour modification.
+"Bug" : Dans IsCollideWithMob(), quand je teste pour reculer le perso, il passe sur X et Y, donc il recule
+de 32 en X, et 32 en Y, il faudrait savoir par quel coté je collide avec le mob.
