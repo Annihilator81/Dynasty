@@ -44,7 +44,7 @@ namespace Dynasty.Entités
                   //OK pour l'attaque
                   IsAttacking = true;
                   //En fonction de l'orientation
-                  switch (myDirection)
+                  switch (myDirection) 
                   {
                       case Direction.Bas:
                           {
