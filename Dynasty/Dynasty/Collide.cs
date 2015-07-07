@@ -12,6 +12,10 @@ namespace Dynasty
         public bool CollideWithMob { get; set; }
         public TimeSpan Time;
         public List<int> ListMonstresTouchés { get; set; }
+        public Collide()
+        {
+            ListMonstresTouchés = new List<int>();
+        }
         public bool IsCollideWithScreen(Joueur joueur)
         {
             //Gauche
@@ -53,7 +57,7 @@ namespace Dynasty
             {
                 if (joueur.RectangleDestination.Intersects(mob.RectangleDestination))
                 {
-                  //  ListMonstresTouchés.Add(i);
+                    ListMonstresTouchés.Add(i);
                     joueur.Vie -= mob.Force;
                     joueur.Texture = Game1.FrameHeroDegat;
 

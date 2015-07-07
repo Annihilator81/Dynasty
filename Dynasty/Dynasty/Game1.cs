@@ -18,6 +18,8 @@ namespace Dynasty
         public static int WindowHeight;
         public static MapConstructor map;
         bool GameIsStart = true;
+        public static bool MenuIsSkip = false;
+        public static bool IsExit = false;
         TimeSpan Time;
 
         //Textures
@@ -26,7 +28,16 @@ namespace Dynasty
         public static Texture2D TexturePierreSol;
         public static Texture2D FrameHeroDegat;
         public static Texture2D FrameHero;
+        public static Texture2D TextureVie;
 
+        //Menu
+        public static Texture2D Menu;
+        public static Texture2D BoutonPlay;
+        public static Texture2D BoutonOption;
+        public static Texture2D BoutonExit;
+
+        //TEST
+        public static GameWindow win;
         public static Texture2D test { get; set; }
         public static Texture2D test3 { get; set; }
 
@@ -35,14 +46,16 @@ namespace Dynasty
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-           // graphics.IsFullScreen = true;
+          //  graphics.IsFullScreen = true;
         }
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            win = this.Window; // récupérer le handle de la fenetre
+            IsMouseVisible = true; // activer la souris
             WindowWidth = GraphicsDevice.Viewport.Width;
             WindowHeight = GraphicsDevice.Viewport.Height;
-            joueur = new Joueur("Pierre", 100, 100, 3, 250, 250);
+            joueur = new Joueur("Pierre", 12, 100, 3, 250, 250);
             collide = new Collide();
             controller = new Controller();
             base.Initialize();
@@ -51,13 +64,13 @@ namespace Dynasty
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
             // TODO: use this.Content to load your game content here
             //Textures Héro
             joueur.Texture = Content.Load<Texture2D>("FrameHero");
             joueur.TextureAttaque = Content.Load<Texture2D>("Sword");
             FrameHeroDegat = Content.Load<Texture2D>("FrameHeroDegat");
             FrameHero = Content.Load<Texture2D>("FrameHero");
+            joueur.TextureVie = Content.Load<Texture2D>("framecoeur");
             //Textures sol
             TextureHerbe = Content.Load<Texture2D>("grass1");
             TexturePierreSol = Content.Load<Texture2D>("brique");
@@ -67,6 +80,10 @@ namespace Dynasty
             //Texte
             spriteFont = Content.Load<SpriteFont>("font");
 
+            //Menu
+            controller.ImageMenu = Content.Load<Texture2D>("Fond");
+            controller.ImagePlay = Content.Load<Texture2D>("play_button");
+            controller.ImageQuit = Content.Load<Texture2D>("Quit");
             //TEST
             test = Content.Load<Texture2D>("grass4");
             test3 = Content.Load<Texture2D>("grass");
@@ -79,37 +96,48 @@ namespace Dynasty
         {
             // TODO: Add your update logic here
             //Si on veut quitter
-            if (controller.Quitter())
+            controller.Quitter();
+            if (IsExit == true)
             {
                 Exit();
             }
-            //Premier lancement
-            if (GameIsStart == true)
+            if (!controller.LoadMenu() || MenuIsSkip)
             {
-                map = new MapConstructor(0, 0);
-                map.ReadTheMap();
-                GameIsStart = false;
-            }
-            //Si on collide pas, on déplace le perso
-            if (!collide.IsCollideWithScreen(joueur))
-            {
-                if (gameTime.TotalGameTime.Subtract(collide.IsCollideWithMob(gameTime)).Seconds >= 1)
+                IsMouseVisible = false;
+                //Premier lancmement
+                if (GameIsStart == true)
                 {
-                    joueur.Texture = FrameHero;
+                    map = new MapConstructor(0, 0);
+                    map.ReadTheMap();
+                    GameIsStart = false;
                 }
-                joueur.SeDéplacer(gameTime);
-                joueur.Attaquer(gameTime);
-              //  if (gameTime.TotalGameTime.Subtract(collide.IsCollideWithSword(gameTime)).Milliseconds >= 500)
-               // {
-               //     map.ListMonstres[collide.ListMonstresTouchés[0]].Texture = textureMonstre;
-                //    collide.ListMonstresTouchés.RemoveAt(0);
-                  //  collide.ListMonstresTouchés.
-               // }
+                //Si on collide pas, on déplace le perso
+                if (!collide.IsCollideWithScreen(joueur))
+                {
+                    if (gameTime.TotalGameTime.Subtract(collide.IsCollideWithMob(gameTime)).Seconds >= 1)
+                    {
+                        joueur.Texture = FrameHero;
+                    }
+                    joueur.SeDéplacer(gameTime);
+                    joueur.Attaquer(gameTime);
+                    if (gameTime.TotalGameTime.Subtract(collide.IsCollideWithSword(gameTime)).Milliseconds >= 500)
+                    {
+                        if (collide.ListMonstresTouchés != null && collide.ListMonstresTouchés.Count > 0 && map.ListMonstres.Count >= collide.ListMonstresTouchés.Count)
+                        {
+                            map.ListMonstres[collide.ListMonstresTouchés[0]].Texture = textureMonstre;
+                            collide.ListMonstresTouchés.RemoveAt(0);
+                        }
+                    }
+                }
+                //Si on collide on change de map
+                else
+                {
+                    map.ReadTheMap();
+                }
             }
-            //Si on collide on change de map
             else
             {
-                map.ReadTheMap();
+                IsMouseVisible = true;
             }
             base.Update(gameTime);
         }
@@ -117,13 +145,21 @@ namespace Dynasty
         {
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-            map.Draw(gameTime);
-            spriteBatch.DrawString(spriteFont, "Coord : x:" + map.X + " y: " + map.Y, new Vector2(500, 20), Color.Black);
-            spriteBatch.DrawString(spriteFont, "Vie : " + joueur.Vie, new Vector2(500, 30), Color.Black);
-            if (joueur.IsAttacking == true)
-            { joueur.DrawAnimatedEntityAttacking(spriteBatch); }
-            joueur.DrawAnimatedEntity(spriteBatch);
-
+            if (!controller.InMenu || MenuIsSkip)
+            {
+                map.Draw(gameTime);
+                spriteBatch.DrawString(spriteFont, "Coord : x:" + map.X + " y: " + map.Y, new Vector2(500, 20), Color.Black);
+                spriteBatch.DrawString(spriteFont, "Vie : " + joueur.Vie, new Vector2(500, 40), Color.Black);
+                spriteBatch.DrawString(spriteFont, "Echap pour retourner au menu", new Vector2(500, 60), Color.Black);
+                if (joueur.IsAttacking == true)
+                { joueur.DrawAnimatedEntityAttacking(spriteBatch); }
+                joueur.DrawAnimatedEntity(spriteBatch);
+                joueur.DrawLife(spriteBatch);
+            }
+            else
+            {
+                controller.DrawMenu(spriteBatch);
+            }
             base.Draw(gameTime);
             spriteBatch.End();
         }

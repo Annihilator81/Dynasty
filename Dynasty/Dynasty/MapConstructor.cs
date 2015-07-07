@@ -38,7 +38,7 @@ namespace Dynasty
             Ressources.Add("004", Game1.TexturePierreSol);
             //Add tout les monstres ici!//
             //Seulement du test pour now//
-            Monstres.Add("001", new Monstre("Troll", 100, 5, 10, 0, 0, Game1.textureMonstre));
+            Monstres.Add("001", new Monstre("Troll", 100, 1, 10, 0, 0, Game1.textureMonstre));
         }
         public void ReadTheMap()
         {
