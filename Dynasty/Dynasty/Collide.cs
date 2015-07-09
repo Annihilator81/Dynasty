@@ -58,7 +58,14 @@ namespace Dynasty
                 if (joueur.RectangleDestination.Intersects(mob.RectangleDestination))
                 {
                     ListMonstresTouchés.Add(i);
-                    joueur.Vie -= mob.Force;
+                    if (joueur.Vie != 0)
+                    {
+                        if (mob.Force > joueur.Vie)
+                        {
+                            joueur.Vie = 0;
+                        }
+                        else { joueur.Vie -= mob.Force; }
+                    }
                     joueur.Texture = Game1.FrameHeroDegat;
 
                     //On vérifie ou étais le perso comparé au monstre

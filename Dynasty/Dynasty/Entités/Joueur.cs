@@ -216,31 +216,38 @@ namespace Dynasty.Entités
                 if (i != 0)
                 {
                     spritebatch.Draw(TextureVie, new Rectangle(z + 32, 32, 32, 32), new Rectangle(0, 0, 32, 32), Color.White);
-                    z += 30;
+                    z += 40;
                 }
             }
             //Moitié || quart et vide
             switch (Vie % 4)
             {
-                case 1: spritebatch.Draw(TextureVie, new Rectangle(z + 32, 32, 32, 32), new Rectangle(32, 0, 32, 32), Color.White); z += 30;
-                    for (int i = Vie + 3; i < Vie + 3; i++)
+                case 1: spritebatch.Draw(TextureVie, new Rectangle(z + 32, 32, 32, 32), new Rectangle(32, 0, 32, 32), Color.White); z += 40;
+                    for (int i = Vie + 3; i < MaxVie; i+=4)
                     {
                         spritebatch.Draw(TextureVie, new Rectangle(z + 32, 32, 32, 32), new Rectangle(128, 0, 32, 32), Color.White);
-                        z += 30;
+                        z += 40;
                     }
                     break;
-                case 2: spritebatch.Draw(TextureVie, new Rectangle(z + 32, 32, 32, 32), new Rectangle(64, 0, 32, 32), Color.White); z += 30;
-                    for (int i = Vie + 2; i < Vie + 2; i++)
+                case 2: spritebatch.Draw(TextureVie, new Rectangle(z + 32, 32, 32, 32), new Rectangle(64, 0, 32, 32), Color.White); z += 40;
+                    for (int i = Vie + 2; i < MaxVie; i+=4)
                     {
                         spritebatch.Draw(TextureVie, new Rectangle(z + 32, 32, 32, 32), new Rectangle(128, 0, 32, 32), Color.White);
-                        z += 30;
+                        z += 40;
                     }
                     break;
-                case 3: spritebatch.Draw(TextureVie, new Rectangle(z + 32, 32, 32, 32), new Rectangle(96, 0, 32, 32), Color.White); z += 30;
-                    for (int i = Vie + 1; i < Vie + 1; i++)
+                case 3: spritebatch.Draw(TextureVie, new Rectangle(z + 32, 32, 32, 32), new Rectangle(96, 0, 32, 32), Color.White); z += 40;
+                    for (int i = Vie + 1; i < MaxVie; i+=4)
                     {
                         spritebatch.Draw(TextureVie, new Rectangle(z + 32, 32, 32, 32), new Rectangle(128, 0, 32, 32), Color.White);
-                        z += 30;
+                        z += 40;
+                    }
+                    break;
+                default:
+                    for (int i = Vie; i < MaxVie; i+=4)
+                    {
+                        spritebatch.Draw(TextureVie, new Rectangle(z + 32, 32, 32, 32), new Rectangle(128, 0, 32, 32), Color.White);
+                        z += 40;
                     }
                     break;
             }

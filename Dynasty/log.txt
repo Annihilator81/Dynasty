@@ -16,3 +16,6 @@ Si oui, le héro perd le montant de HP équivalent à la force du monstre, et chang
 pour afficher qu'il a prit un coup. La texture reste affiché une seconde. Voir pour modification.
 "Bug" : Dans IsCollideWithMob(), quand je teste pour reculer le perso, il passe sur X et Y, donc il recule
 de 32 en X, et 32 en Y, il faudrait savoir par quel coté je collide avec le mob.
+
+07/07/2015 : Ajout menu avec bouton Play et Quit, sprite à refaire. Ajout de l'affichage de la vie
+il faut corriger le bug qui, quand on perd un coeur complet, fait disparaître le coeur. 

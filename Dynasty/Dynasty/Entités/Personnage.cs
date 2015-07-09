@@ -10,6 +10,7 @@ namespace Dynasty.Entités
     {
         public string Nom { get; set; }
         public int Vie { get; set; }
+        public int MaxVie { get; set; }
         public int Force { get; set; }
         public int Vitesse { get; set; }
         public Personnage(string nom, int vie, int force, int vitesse,
@@ -17,6 +18,7 @@ namespace Dynasty.Entités
         {
             Nom = nom;
             Vie = vie;
+            MaxVie = vie;
             Force = force;
             Vitesse = vitesse;
         }
